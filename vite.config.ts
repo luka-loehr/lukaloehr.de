@@ -3,6 +3,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  base: '/', // For custom domain (lukaloehr.de), use '/' instead of '/repo-name/'
   resolve: {
     alias: {
       fs: 'fs', // only if needed by a library; remove if unsure
