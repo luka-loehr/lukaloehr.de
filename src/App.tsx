@@ -10,29 +10,42 @@ import './styles/animations.css';
 
 function App() {
   useEffect(() => {
-    // Update page title
-    document.title = "Luka | AI & Code Developer";
-    
-    // Add smooth scrolling to all anchor links
-    document.querySelectorAll('a').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-        if (!href) return;
+    try {
+      // Update page title
+      document.title = "Luka | AI & Code Developer";
+      
+      // Add smooth scrolling to all anchor links
+      const anchors = document.querySelectorAll('a');
+      anchors.forEach(anchor => {
+        const handleClick = function (e: Event) {
+          const target = e.currentTarget as HTMLAnchorElement;
+          const href = target.getAttribute('href');
+          if (!href) return;
 
-        // Only handle internal anchor links (those starting with #)
-        if (href.startsWith('#')) {
-          e.preventDefault();
-          const targetId = href.substring(1); // Remove the '#' character
-          const targetElement = document.getElementById(targetId);
-          if (targetElement) {
-            targetElement.scrollIntoView({
-              behavior: 'smooth'
-            });
+          // Only handle internal anchor links (those starting with #)
+          if (href.startsWith('#')) {
+            e.preventDefault();
+            const targetId = href.substring(1); // Remove the '#' character
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+              targetElement.scrollIntoView({
+                behavior: 'smooth'
+              });
+            }
           }
-        }
-        // External links will work normally without preventDefault()
+          // External links will work normally without preventDefault()
+        };
+        
+        anchor.addEventListener('click', handleClick);
+        
+        // Cleanup function
+        return () => {
+          anchor.removeEventListener('click', handleClick);
+        };
       });
-    });
+    } catch (error) {
+      console.error('Error in App useEffect:', error);
+    }
   }, []);
 
   return (
