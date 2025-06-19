@@ -1,88 +1,76 @@
-# Luka Löhr - Portfolio Website
+# Luka Löhr - AI Builder & App Developer Portfolio
 
-A modern, responsive portfolio website showcasing my work as a software developer. Built with vanilla HTML, CSS, and JavaScript, featuring a sleek dark theme with vibrant gradients and smooth animations.
+Eine moderne, professionelle Portfolio-Website für einen 15-jährigen Tech-Enthusiasten, AI-Builder und App-Entwickler aus Karlsruhe. Inspiriert von professionellen Framer-Templates mit einem cleanen, dunklen Design.
 
 🌐 **Live Site**: [lukaloehr.de](https://lukaloehr.de)
 
 ## ✨ Features
 
-- **Modern Design**: Dark theme with vibrant gradient accents
-- **Fully Responsive**: Optimized for all devices and screen sizes
-- **Smooth Animations**: Scroll-based animations and interactive elements
-- **Typing Effect**: Dynamic role display in the hero section
-- **Interactive Navigation**: Sticky header with active section highlighting
-- **Contact Form**: Ready-to-integrate contact functionality
-- **Performance Optimized**: Fast loading with vanilla JavaScript
+- **Professionelles Design**: Dunkles Theme im Stil moderner Tech-Portfolios
+- **Projekt-Showcases**: Mit Phone-Mockups und detaillierten Beschreibungen
+- **Tech-Stack Präsentation**: Übersichtliche Darstellung aller Skills und Tools
+- **Responsive Design**: Perfekt optimiert für alle Geräte
+- **Smooth Animations**: Subtile Scroll- und Hover-Effekte
+- **Performance**: Schnelle Ladezeiten mit Vanilla JavaScript
 
 ## 🛠️ Tech Stack
 
-- **HTML5** - Semantic markup
-- **CSS3** - Modern styling with CSS variables, Flexbox, and Grid
-- **JavaScript** - Vanilla JS for all interactions
-- **Font Awesome** - Icon library
-- **Google Fonts** - Inter font family
+- **HTML5** - Semantisches Markup
+- **CSS3** - Modernes Styling mit CSS Variables und Grid
+- **JavaScript** - Vanilla JS für alle Interaktionen
+- **Font Awesome** - Icon Library
+- **Inter Font** - Professionelle Typography
 
-## 📂 Structure
+## 📂 Struktur
 
 ```
-├── index.html      # Main HTML file
-├── style.css       # All styles and animations
-├── script.js       # JavaScript functionality
-├── CNAME          # Custom domain configuration
-└── README.md      # This file
+├── index.html      # Haupt-HTML mit allen Sektionen
+├── style.css       # Komplettes Styling und Animationen
+├── script.js       # JavaScript für Interaktivität
+├── CNAME          # Custom Domain Konfiguration
+└── README.md      # Diese Datei
 ```
 
-## 🎨 Customization
+## 🎨 Design System
 
-### Colors
-All colors are defined as CSS variables in `style.css`:
-
+### Farben
 ```css
-:root {
-    --primary-color: #6366f1;
-    --secondary-color: #8b5cf6;
-    --accent-color: #ec4899;
-    --bg-dark: #0f0f0f;
-    --bg-light: #1a1a1a;
-}
+--bg-primary: #000000;       /* Haupthintergrund */
+--bg-secondary: #0a0a0a;     /* Sekundärer Hintergrund */
+--accent-blue: #0084ff;      /* Primärer Akzent */
+--accent-green: #00d4aa;     /* Erfolg/Aktiv Status */
+--text-primary: #ffffff;     /* Haupttext */
+--text-secondary: #8b8b8b;   /* Sekundärer Text */
 ```
 
-### Content
-Update the content directly in `index.html`:
-- Personal information in the About section
-- Skills in the Tech Stack section
-- Projects in the Projects section
-- Contact information
+### Sektionen
+1. **Hero** - Profil mit Tech-Icons und Einführung
+2. **Projekte** - Showcase wichtiger Apps und Tools
+3. **Skills** - Detaillierte Auflistung aller Technologien
+4. **Setup** - Dev-PC und Toolstack
+5. **Kontakt** - Einfache Kontaktmöglichkeiten
 
-### Typing Animation
-Modify the phrases in `script.js`:
+## 🚀 Projekte
 
-```javascript
-const phrases = [
-    'Full-Stack Developer',
-    'Software Engineer',
-    'Problem Solver',
-    'Tech Enthusiast'
-];
-```
+- **LGKA+ App** - Flutter-basierter Vertretungsplan-Viewer
+- **AI Substitution Checker** - GPT-gestützte Plananalyse
+- **AirGo** - Cross-Device File Sharing
+- **Ghost Detector** - KI-Tool für Chat-Analyse
+- **Core** - Vision eines persönlichen AI-Assistenten
 
-## 🚀 Deployment
+## 💻 Local Development
 
-The site is automatically deployed to GitHub Pages when changes are pushed to the main branch.
-
-### Local Development
-
-1. Clone the repository:
+1. Repository clonen:
    ```bash
    git clone https://github.com/luka-loehr/lukaloehr.de.git
    ```
 
-2. Open `index.html` in your browser or use a local server:
+2. Mit lokalem Server starten:
    ```bash
-   # Using Python
+   # Python
    python -m http.server 8000
    
-   # Using Node.js
+   # Node.js
    npx serve
    ```
 
@@ -93,16 +81,24 @@ The site is automatically deployed to GitHub Pages when changes are pushed to th
 - Safari (latest)
 - Edge (latest)
 
+## 🔧 Anpassungen
+
+Das Portfolio kann einfach angepasst werden:
+- Inhalte direkt in `index.html` bearbeiten
+- Farben in CSS Variables ändern
+- Neue Projekte in der projects-grid hinzufügen
+- Skills und Tools aktualisieren
+
 ## 📄 License
 
-MIT License - feel free to use this as a template for your own portfolio!
+MIT License
 
-## 👤 Contact
+## 👤 Kontakt
 
 - **Email**: kontakt@lukaloehr.de
 - **GitHub**: [github.com/luka-loehr](https://github.com/luka-loehr)
-- **LinkedIn**: [linkedin.com/in/luka-loehr](https://linkedin.com/in/luka-loehr)
+- **Location**: Karlsruhe, Deutschland
 
 ---
 
-Made with ❤️ by Luka Löhr 
+Built with 🚀 by Luka Löhr - 15 Jahre, AI-Enthusiast 

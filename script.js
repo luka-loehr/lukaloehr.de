@@ -1,63 +1,6 @@
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     
-    // Typing animation
-    const typingText = document.querySelector('.typing-text');
-    const phrases = [
-        'Full-Stack Developer',
-        'Software Engineer',
-        'Problem Solver',
-        'Tech Enthusiast'
-    ];
-    let phraseIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    let typingSpeed = 100;
-
-    function typeEffect() {
-        const currentPhrase = phrases[phraseIndex];
-        
-        if (isDeleting) {
-            typingText.textContent = currentPhrase.substring(0, charIndex - 1);
-            charIndex--;
-            typingSpeed = 50;
-        } else {
-            typingText.textContent = currentPhrase.substring(0, charIndex + 1);
-            charIndex++;
-            typingSpeed = 100;
-        }
-
-        if (!isDeleting && charIndex === currentPhrase.length) {
-            isDeleting = true;
-            typingSpeed = 2000; // Pause at end
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            phraseIndex = (phraseIndex + 1) % phrases.length;
-            typingSpeed = 500; // Pause before new phrase
-        }
-
-        setTimeout(typeEffect, typingSpeed);
-    }
-
-    // Start typing effect
-    setTimeout(typeEffect, 1000);
-
-    // Navigation scroll effect
-    const navbar = document.querySelector('.navbar');
-    let lastScroll = 0;
-
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-        
-        if (currentScroll > 100) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
-        }
-
-        lastScroll = currentScroll;
-    });
-
     // Mobile menu toggle
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
@@ -90,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Active navigation link
+    // Active navigation link based on scroll position
     const sections = document.querySelectorAll('section');
     const navItems = document.querySelectorAll('.nav-link');
 
@@ -115,95 +58,81 @@ document.addEventListener('DOMContentLoaded', function() {
     // Intersection Observer for fade-in animations
     const observerOptions = {
         threshold: 0.1,
-        rootMargin: '0px 0px -100px 0px'
+        rootMargin: '0px 0px -50px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in-up');
+                entry.target.classList.add('fade-in');
                 observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    // Observe all sections and cards
-    document.querySelectorAll('section, .skill-card, .project-card').forEach(el => {
+    // Observe all major sections
+    document.querySelectorAll('.project-showcase, .projects-grid, .skills-category, .setup-card, .contact-cards').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
         observer.observe(el);
     });
 
-    // Form submission
-    const contactForm = document.getElementById('contactForm');
+    // Add hover effect to tech icons
+    const techIcons = document.querySelectorAll('.tech-icon');
     
-    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
+    techIcons.forEach(icon => {
+        icon.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-8px) scale(1.05)';
+        });
         
-        // Get form data
-        const formData = new FormData(contactForm);
-        const name = formData.get('name');
-        const email = formData.get('email');
-        const subject = formData.get('subject');
-        const message = formData.get('message');
-        
-        // Here you would normally send the form data to a server
-        // For now, we'll just show an alert
-        alert(`Vielen Dank ${name}! Ihre Nachricht wurde erfolgreich gesendet. Ich werde mich bald bei Ihnen melden.`);
-        
-        // Reset form
-        contactForm.reset();
+        icon.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(-4px) scale(1)';
+        });
     });
 
-    // Add hover effect to skill cards
-    const skillCards = document.querySelectorAll('.skill-card');
+    // Add hover effect to project cards
+    const projectCards = document.querySelectorAll('.project-card');
     
-    skillCards.forEach(card => {
+    projectCards.forEach(card => {
         card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-10px) rotateZ(2deg)';
+            this.style.transform = 'translateY(-8px)';
         });
         
         card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(-5px) rotateZ(0deg)';
+            this.style.transform = 'translateY(-4px)';
         });
     });
 
-    // Parallax effect for hero background
-    const heroBackground = document.querySelector('.hero-background');
-    
+    // Parallax effect for phone mockups
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
-        const rate = scrolled * -0.5;
+        const phones = document.querySelectorAll('.phone-mockup');
         
-        if (heroBackground) {
-            heroBackground.style.transform = `translateY(${rate}px)`;
-        }
+        phones.forEach((phone, index) => {
+            const rate = scrolled * -0.1 * (index % 2 === 0 ? 1 : -1);
+            phone.style.transform = `translateY(${rate}px) rotate(${index % 2 === 0 ? -5 : 5}deg)`;
+        });
     });
 
     // Dynamic year in footer
     const year = new Date().getFullYear();
     const footerText = document.querySelector('.footer p');
     if (footerText) {
-        footerText.textContent = `© ${year} Luka Löhr. Alle Rechte vorbehalten.`;
+        footerText.textContent = `Luka Löhr © ${year}`;
     }
 
-    // Smooth scroll indicator animation
-    const scrollIndicator = document.querySelector('.scroll-indicator');
-    
-    if (scrollIndicator) {
-        scrollIndicator.addEventListener('click', () => {
-            const aboutSection = document.getElementById('about');
-            if (aboutSection) {
-                aboutSection.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    }
-
-    // Add loading animation
-    window.addEventListener('load', () => {
-        document.body.classList.add('loaded');
-    });
+    // Contact form removal - no form in new design
+    // Just keeping contact cards functional
 
     // Console Easter egg
-    console.log('%c👋 Hallo! Schön, dass Sie hier vorbeischauen!', 'font-size: 16px; color: #6366f1; font-weight: bold;');
-    console.log('%c🚀 Interessiert an meinem Code? Kontaktieren Sie mich gerne!', 'font-size: 14px; color: #8b5cf6;');
-    console.log('%c📧 kontakt@lukaloehr.de', 'font-size: 14px; color: #ec4899;');
+    console.log('%c👋 Hey! Schön, dass du dir den Code anschaust!', 'font-size: 16px; color: #0084ff; font-weight: bold;');
+    console.log('%c🚀 Ich bin immer offen für spannende Projekte!', 'font-size: 14px; color: #00d4aa;');
+    console.log('%c📧 kontakt@lukaloehr.de', 'font-size: 14px; color: #7c3aed;');
+
+    // Add smooth fade-in on page load
+    document.body.style.opacity = '0';
+    window.addEventListener('load', () => {
+        document.body.style.transition = 'opacity 0.5s ease';
+        document.body.style.opacity = '1';
+    });
 }); 
