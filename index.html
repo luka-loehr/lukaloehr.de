@@ -3,48 +3,281 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic Test Website</title>
+    <title>Luka Löhr - Portfolio</title>
+    <meta name="description" content="Portfolio von Luka Löhr - Software Developer">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Basic Test Website</h1>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">LL</a>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#about" class="nav-link">Über mich</a>
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projekte</a>
+                <a href="#contact" class="nav-link">Kontakt</a>
+            </div>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
 
-    <main>
-        <section id="home">
-            <h2>Welcome</h2>
-            <p>This is a basic test website. Click the button below to test JavaScript functionality.</p>
-            <button id="testButton">Click me!</button>
-            <p id="message"></p>
-        </section>
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">
+                Hallo, ich bin <span class="highlight">Luka Löhr</span>
+            </h1>
+            <h2 class="hero-subtitle">
+                <span class="typing-text"></span><span class="cursor">|</span>
+            </h2>
+            <p class="hero-description">
+                Leidenschaftlicher Entwickler mit Fokus auf moderne Webtechnologien
+            </p>
+            <div class="hero-buttons">
+                <a href="#contact" class="btn btn-primary">Kontakt aufnehmen</a>
+                <a href="#projects" class="btn btn-secondary">Projekte ansehen</a>
+            </div>
+            <div class="social-links">
+                <a href="https://github.com/luka-loehr" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="mailto:kontakt@lukaloehr.de" class="social-link">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <i class="fas fa-chevron-down"></i>
+        </div>
+    </section>
 
-        <section id="about">
-            <h2>About</h2>
-            <p>This is a simple website created for testing purposes. It includes basic HTML, CSS, and JavaScript.</p>
-        </section>
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2 class="section-title">Über mich</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>
+                        Ich bin ein leidenschaftlicher Software-Entwickler mit einem starken Fokus auf moderne Webtechnologien 
+                        und innovative Lösungen. Meine Reise in der Programmierung begann aus purer Neugier und hat sich zu 
+                        einer echten Leidenschaft entwickelt.
+                    </p>
+                    <p>
+                        Mit einem Auge für Details und einer Vorliebe für sauberen, effizienten Code, strebe ich danach, 
+                        nicht nur funktionale, sondern auch elegante Lösungen zu entwickeln. Ich glaube an kontinuierliches 
+                        Lernen und bin immer auf der Suche nach neuen Herausforderungen.
+                    </p>
+                    <div class="about-info">
+                        <div class="info-item">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Informatik Student</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Deutschland</span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-code"></i>
+                            <span>Full-Stack Development</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <div class="image-placeholder">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-        <section id="contact">
-            <h2>Contact</h2>
-            <p>This is the contact section of the test website.</p>
-            <form id="contactForm">
-                <input type="text" placeholder="Your name" required>
-                <input type="email" placeholder="Your email" required>
-                <textarea placeholder="Your message" required></textarea>
-                <button type="submit">Send</button>
-            </form>
-        </section>
-    </main>
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="container">
+            <h2 class="section-title">Tech Stack</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <i class="fab fa-html5"></i>
+                    <h3>HTML5</h3>
+                    <p>Semantisches Markup</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-css3-alt"></i>
+                    <h3>CSS3</h3>
+                    <p>Responsive Design</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-js"></i>
+                    <h3>JavaScript</h3>
+                    <p>ES6+ & TypeScript</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-react"></i>
+                    <h3>React</h3>
+                    <p>Modern UI Development</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-node-js"></i>
+                    <h3>Node.js</h3>
+                    <p>Backend Development</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-python"></i>
+                    <h3>Python</h3>
+                    <p>Scripting & Automation</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-database"></i>
+                    <h3>Datenbanken</h3>
+                    <p>SQL & NoSQL</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fab fa-git-alt"></i>
+                    <h3>Git</h3>
+                    <p>Version Control</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <footer>
-        <p>&copy; 2024 Basic Test Website</p>
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2 class="section-title">Projekte</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>E-Commerce Platform</h3>
+                        <p>Eine moderne E-Commerce-Lösung mit React und Node.js, die eine nahtlose Benutzererfahrung bietet.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">MongoDB</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
+                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Task Management App</h3>
+                        <p>Eine intuitive Task-Management-Anwendung mit Echtzeit-Synchronisation und Team-Kollaboration.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Vue.js</span>
+                            <span class="tech-tag">Firebase</span>
+                            <span class="tech-tag">Tailwind</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
+                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">
+                        <div class="project-placeholder">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                    </div>
+                    <div class="project-content">
+                        <h3>Data Visualization Tool</h3>
+                        <p>Ein leistungsstarkes Tool zur Visualisierung komplexer Datensätze mit interaktiven Charts.</p>
+                        <div class="project-tech">
+                            <span class="tech-tag">D3.js</span>
+                            <span class="tech-tag">Python</span>
+                            <span class="tech-tag">Flask</span>
+                        </div>
+                        <div class="project-links">
+                            <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
+                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Kontakt</h2>
+            <p class="section-subtitle">Haben Sie ein Projekt im Kopf? Lassen Sie uns darüber sprechen!</p>
+            <div class="contact-content">
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" name="name" placeholder="Ihr Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" name="email" placeholder="Ihre E-Mail" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="subject" placeholder="Betreff" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea name="message" rows="5" placeholder="Ihre Nachricht" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Nachricht senden
+                    </button>
+                </form>
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h3>E-Mail</h3>
+                            <p>kontakt@lukaloehr.de</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-github"></i>
+                        <div>
+                            <h3>GitHub</h3>
+                            <p>github.com/luka-loehr</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <i class="fab fa-linkedin"></i>
+                        <div>
+                            <h3>LinkedIn</h3>
+                            <p>linkedin.com/in/luka-loehr</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Luka Löhr. Alle Rechte vorbehalten.</p>
+        </div>
     </footer>
 
     <script src="script.js"></script>
