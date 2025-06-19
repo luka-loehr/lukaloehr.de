@@ -1,6 +1,29 @@
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     
+    // Loading animation
+    window.addEventListener('load', () => {
+        document.body.classList.add('loaded');
+        
+        // Animate hero elements after load
+        animateHeroElements();
+    });
+
+    // Animate hero elements with stagger
+    function animateHeroElements() {
+        const profileSection = document.querySelector('.profile-section');
+        const techIcons = document.querySelectorAll('.tech-icon');
+        const heroIntro = document.querySelector('.hero-intro');
+        const statusBadge = document.querySelector('.status-badge');
+        
+        // These are already animated via CSS, just ensure they're visible
+        setTimeout(() => {
+            if (profileSection) profileSection.style.opacity = '1';
+            if (heroIntro) heroIntro.style.opacity = '1';
+            if (statusBadge) statusBadge.style.opacity = '1';
+        }, 100);
+    }
+
     // Mobile menu toggle
     const hamburger = document.querySelector('.hamburger');
     const navMenu = document.querySelector('.nav-menu');
@@ -37,80 +60,180 @@ document.addEventListener('DOMContentLoaded', function() {
     const sections = document.querySelectorAll('section');
     const navItems = document.querySelectorAll('.nav-link');
 
-    window.addEventListener('scroll', () => {
-        let current = '';
+    function updateActiveNav() {
+        const scrollY = window.pageYOffset;
+        
         sections.forEach(section => {
-            const sectionTop = section.offsetTop;
+            const sectionTop = section.offsetTop - 100;
             const sectionHeight = section.clientHeight;
-            if (pageYOffset >= sectionTop - 200) {
-                current = section.getAttribute('id');
+            const sectionId = section.getAttribute('id');
+            
+            if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                navItems.forEach(item => {
+                    item.classList.remove('active');
+                    if (item.getAttribute('href') === `#${sectionId}`) {
+                        item.classList.add('active');
+                    }
+                });
             }
         });
+    }
 
-        navItems.forEach(item => {
-            item.classList.remove('active');
-            if (item.getAttribute('href').slice(1) === current) {
-                item.classList.add('active');
-            }
-        });
-    });
+    window.addEventListener('scroll', updateActiveNav);
+    updateActiveNav();
 
-    // Intersection Observer for fade-in animations
+    // Advanced Intersection Observer for animations
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
     };
 
     const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry, index) => {
             if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in');
+                // Add staggered delay for elements
+                setTimeout(() => {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }, index * 100);
+                
                 observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    // Observe all major sections
-    document.querySelectorAll('.project-showcase, .projects-grid, .skills-category, .setup-card, .contact-cards').forEach(el => {
+    // Observe different elements with initial styles
+    const animatedElements = document.querySelectorAll(
+        '.project-showcase, .project-card, .skill-group, .setup-card, .contact-card, .about-text, .section-title'
+    );
+
+    animatedElements.forEach(el => {
         el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
         observer.observe(el);
     });
 
-    // Add hover effect to tech icons
+    // Special observer for skill tags with stagger
+    const skillTags = document.querySelectorAll('.skill-tag');
+    skillTags.forEach((tag, index) => {
+        tag.style.opacity = '0';
+        tag.style.transform = 'translateY(20px)';
+        
+        const tagObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.transition = 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, index * 30);
+                    tagObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        tagObserver.observe(tag);
+    });
+
+    // Parallax effect for phone mockups
+    let ticking = false;
+    function updateParallax() {
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                const scrolled = window.pageYOffset;
+                const phones = document.querySelectorAll('.phone-mockup');
+                
+                phones.forEach((phone, index) => {
+                    const rect = phone.getBoundingClientRect();
+                    const speed = index % 2 === 0 ? 0.5 : -0.5;
+                    const yPos = -(rect.top * speed * 0.1);
+                    
+                    if (rect.bottom >= 0 && rect.top <= window.innerHeight) {
+                        phone.style.transform = `translateY(${yPos}px) rotate(${index % 2 === 0 ? -5 : 5}deg)`;
+                    }
+                });
+                
+                ticking = false;
+            });
+            ticking = true;
+        }
+    }
+
+    window.addEventListener('scroll', updateParallax);
+
+    // Enhanced hover effects for tech icons
     const techIcons = document.querySelectorAll('.tech-icon');
     
     techIcons.forEach(icon => {
-        icon.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-8px) scale(1.05)';
-        });
-        
-        icon.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(-4px) scale(1)';
+        icon.addEventListener('mouseenter', function(e) {
+            // Add ripple effect
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const ripple = document.createElement('span');
+            ripple.style.cssText = `
+                position: absolute;
+                background: rgba(255,255,255,0.3);
+                border-radius: 50%;
+                pointer-events: none;
+                width: 0;
+                height: 0;
+                top: ${y}px;
+                left: ${x}px;
+                transform: translate(-50%, -50%);
+                animation: rippleEffect 0.6s ease-out;
+            `;
+            
+            this.style.position = 'relative';
+            this.style.overflow = 'hidden';
+            this.appendChild(ripple);
+            
+            setTimeout(() => ripple.remove(), 600);
         });
     });
 
-    // Add hover effect to project cards
+    // Create ripple animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes rippleEffect {
+            to {
+                width: 100px;
+                height: 100px;
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Smooth reveal for project cards on hover
     const projectCards = document.querySelectorAll('.project-card');
     
     projectCards.forEach(card => {
         card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-8px)';
+            this.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
         });
         
         card.addEventListener('mouseleave', function() {
-            this.style.transform = 'translateY(-4px)';
+            this.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
         });
     });
 
-    // Parallax effect for phone mockups
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const phones = document.querySelectorAll('.phone-mockup');
+    // Magnetic hover effect for buttons
+    const magneticElements = document.querySelectorAll('.btn, .contact-card, .tech-icon');
+    
+    magneticElements.forEach(elem => {
+        elem.addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            this.style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+        });
         
-        phones.forEach((phone, index) => {
-            const rate = scrolled * -0.1 * (index % 2 === 0 ? 1 : -1);
-            phone.style.transform = `translateY(${rate}px) rotate(${index % 2 === 0 ? -5 : 5}deg)`;
+        elem.addEventListener('mouseleave', function() {
+            this.style.transform = '';
         });
     });
 
@@ -121,18 +244,40 @@ document.addEventListener('DOMContentLoaded', function() {
         footerText.textContent = `Luka Löhr © ${year}`;
     }
 
-    // Contact form removal - no form in new design
-    // Just keeping contact cards functional
+    // Console Easter egg with animation
+    console.log(
+        '%c👋 Hey! Schön, dass du dir den Code anschaust!',
+        'font-size: 16px; color: #0084ff; font-weight: bold; text-shadow: 2px 2px 0 rgba(0,132,255,0.2);'
+    );
+    console.log(
+        '%c🚀 Ich bin immer offen für spannende Projekte!',
+        'font-size: 14px; color: #00d4aa; font-weight: 500;'
+    );
+    console.log(
+        '%c📧 kontakt@lukaloehr.de',
+        'font-size: 14px; color: #7c3aed; font-weight: 500;'
+    );
 
-    // Console Easter egg
-    console.log('%c👋 Hey! Schön, dass du dir den Code anschaust!', 'font-size: 16px; color: #0084ff; font-weight: bold;');
-    console.log('%c🚀 Ich bin immer offen für spannende Projekte!', 'font-size: 14px; color: #00d4aa;');
-    console.log('%c📧 kontakt@lukaloehr.de', 'font-size: 14px; color: #7c3aed;');
+    // Performance optimization - Throttle scroll events
+    let scrollTimer;
+    window.addEventListener('scroll', () => {
+        if (scrollTimer) {
+            clearTimeout(scrollTimer);
+        }
+        scrollTimer = setTimeout(() => {
+            updateActiveNav();
+        }, 10);
+    });
 
-    // Add smooth fade-in on page load
-    document.body.style.opacity = '0';
-    window.addEventListener('load', () => {
-        document.body.style.transition = 'opacity 0.5s ease';
-        document.body.style.opacity = '1';
+    // Add smooth page transitions
+    document.addEventListener('click', (e) => {
+        const link = e.target.closest('a');
+        if (link && link.href && !link.href.startsWith('#') && !link.target) {
+            e.preventDefault();
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                window.location.href = link.href;
+            }, 300);
+        }
     });
 }); 
