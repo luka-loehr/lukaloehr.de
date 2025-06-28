@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Reaktionszeit-Test</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    button { padding: 10px 20px; font-size: 16px; margin: 10px; }
+    #signalBtn { background-color: gray; color: white; }
+    .green-lamp { width: 20px; height: 20px; background: green; border-radius: 50%; display: inline-block; margin-left: 10px; }
+    .hidden { display: none; }
+    table, th, td { border: 1px solid black; border-collapse: collapse; padding: 5px; }
+  </style>
+</head>
+<body>
+
+<h1>Reaktionszeit-Test</h1>
+
+<button id="startTest">Test starten</button><span id="lamp" class="green-lamp hidden"></span>
+<button id="signalBtn" disabled>Klicken wenn Farbe erscheint</button>
+<audio id="beepSound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+
+<h2>Testergebnisse</h2>
+<table id="resultsTable">
+  <thead>
+    <tr>
+      <th>Datum & Uhrzeit</th>
+      <th>Reaktionszeit (ms)</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<h2>Statistiken</h2>
+<table>
+  <tr><td>Min:</td><td id="minTime">-</td></tr>
+  <tr><td>Max:</td><td id="maxTime">-</td></tr>
+  <tr><td>Mittelwert:</td><td id="avgTime">-</td></tr>
+  <tr><td>Median:</td><td id="medianTime">-</td></tr>
+  <tr><td>Modalwert:</td><td id="modeTime">-</td></tr>
+</table>
+
+<canvas id="chart" width="600" height="300"></canvas>
+
+<script>
+let reactionTimes = [];
+let startTime;
+
+const startBtn = document.getElementById('startTest');
+const signalBtn = document.getElementById('signalBtn');
+const lamp = document.getElementById('lamp');
+const beep = document.getElementById('beepSound');
+const chartCtx = document.getElementById('chart').getContext('2d');
+
+const resultsTableBody = document.querySelector('#resultsTable tbody');
+
+let chart = new Chart(chartCtx, {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [{
+      label: 'Reaktionszeit (ms)',
+      data: [],
+      borderColor: 'blue',
+      fill: false
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      x: { title: { display: true, text: 'Testdurchlauf' } },
+      y: { title: { display: true, text: 'Reaktionszeit (ms)' }, beginAtZero: true }
+    }
+  }
+});
+
+startBtn.onclick = () => {
+  lamp.classList.remove('hidden');
+  signalBtn.disabled = true;
+  signalBtn.style.backgroundColor = 'gray';
+
+  setTimeout(() => {
+    startTime = performance.now();
+    signalBtn.disabled = false;
+    signalBtn.style.backgroundColor = 'red';
+    beep.play();
+  }, Math.random() * 3000 + 1000); // 1 bis 4 Sekunden
+};
+
+signalBtn.onclick = () => {
+  const reactionTime = Math.round(performance.now() - startTime);
+  const now = new Date();
+  const timeStr = now.toLocaleString();
+
+  reactionTimes.push(reactionTime);
+
+  // Tabelle aktualisieren
+  const row = resultsTableBody.insertRow();
+  row.insertCell(0).innerText = timeStr;
+  row.insertCell(1).innerText = reactionTime;
+
+  updateStats();
+  updateChart();
+
+  signalBtn.disabled = true;
+  signalBtn.style.backgroundColor = 'gray';
+  lamp.classList.add('hidden');
+};
+
+function updateStats() {
+  if (reactionTimes.length === 0) return;
+
+  const sorted = [...reactionTimes].sort((a, b) => a - b);
+  const sum = reactionTimes.reduce((a, b) => a + b, 0);
+  const mean = (sum / reactionTimes.length).toFixed(2);
+  const median = sorted.length % 2 === 0
+    ? ((sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2).toFixed(2)
+    : sorted[Math.floor(sorted.length / 2)].toFixed(2);
+  const mode = getMode(reactionTimes);
+
+  document.getElementById('minTime').innerText = Math.min(...reactionTimes);
+  document.getElementById('maxTime').innerText = Math.max(...reactionTimes);
+  document.getElementById('avgTime').innerText = mean;
+  document.getElementById('medianTime').innerText = median;
+  document.getElementById('modeTime').innerText = mode;
+}
+
+function getMode(arr) {
+  const freq = {};
+  arr.forEach(val => freq[val] = (freq[val] || 0) + 1);
+  let maxFreq = 0, mode = arr[0];
+  for (let key in freq) {
+    if (freq[key] > maxFreq) {
+      maxFreq = freq[key];
+      mode = key;
+    }
+  }
+  return mode;
+}
+
+function updateChart() {
+  chart.data.labels = reactionTimes.map((_, i) => i + 1);
+  chart.data.datasets[0].data = reactionTimes;
+  chart.update();
+}
+</script>
+
+</body>
+</html>

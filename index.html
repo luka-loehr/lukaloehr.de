@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luka Löhr - AI Developer & Digital Architect</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <h1>Luka Löhr</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#projekte" class="nav-link">Projekte</a></li>
+                <li><a href="#about" class="nav-link">Über mich</a></li>
+                <li><a href="#tech-stack" class="nav-link">Tech Stack</a></li>
+                <li><a href="#kontakt" class="nav-link">Kontakt</a></li>
+                <li><a href="#" class="nav-link students-link" id="students-btn">Für Schüler</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">Hi, ich bin <span class="gradient-text">Luka</span></h1>
+                <p class="hero-subtitle"><span class="rotating-text">Software Developer</span></p>
+                <p class="hero-description">
+                    Technologiebegeisterter Entwickler mit Fokus auf <strong>künstliche Intelligenz</strong>, 
+                    <strong>Automatisierung</strong> und <strong>moderne App-Entwicklung</strong>. Ich baue smarte 
+                    Lösungen, die echten Mehrwert bieten – von lokal gehosteten KI-Assistenten bis zu 
+                    DSGVO-konformen Schul-Apps.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#projekte" class="btn btn-primary">
+                        <span>🚀</span> Projekte entdecken
+                    </a>
+                    <a href="#kontakt" class="btn btn-secondary">
+                        <span>💬</span> Let's talk
+                    </a>
+                </div>
+                <div class="social-links">
+                    <a href="https://github.com/lukaloehr" target="_blank" class="social-link">
+                        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33c.85 0 1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                        GitHub
+                    </a>
+                    <a href="mailto:luka@lukaloehr.de" class="social-link">
+                        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5l-8-5V6l8 5l8-5v2z"/></svg>
+                        E-Mail
+                    </a>
+                    <a href="https://linkedin.com/in/luka-loehr" target="_blank" class="social-link">
+                        <svg viewBox="0 0 24 24" width="20" height="20"><path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                        LinkedIn
+                    </a>
+                </div>
+            </div>
+            <div class="hero-code">
+                <div class="code-window">
+                    <div class="code-header">
+                        <span class="code-dot red"></span>
+                        <span class="code-dot yellow"></span>
+                        <span class="code-dot green"></span>
+                    </div>
+                    <pre class="code-content"><code><span class="code-keyword">const</span> <span class="code-variable">developer</span> = {
+  <span class="code-property">name</span>: <span class="code-string">"Luka Löhr"</span>,
+  <span class="code-property">focus</span>: [<span class="code-string">"AI"</span>, <span class="code-string">"Automation"</span>, <span class="code-string">"Apps"</span>],
+  <span class="code-property">passion</span>: <span class="code-string">"Building the future"</span>,
+  <span class="code-property">privacy</span>: <span class="code-boolean">true</span>
+};</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projekte Section -->
+    <section id="projekte" class="section projects">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">PORTFOLIO</span>
+                <h2 class="section-title">Ausgewählte Projekte</h2>
+                <p class="section-description">Von KI-Assistenten bis zu Cross-Platform Apps</p>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-badge live">LIVE</div>
+                    <div class="project-icon">
+                        <svg viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M12 2L1 7v10c0 5.55 3.84 10.74 9 12c5.16-1.26 9-6.45 9-12V7l-11-5z"/></svg>
+                    </div>
+                    <h3 class="project-title">LGKA App</h3>
+                    <p class="project-description">
+                        Offizielle Schul-App für Stundenplan & Vertretungen. DSGVO-konforme Lösung mit Echtzeit-Updates und intuitiver Benutzeroberfläche.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Flutter</span>
+                        <span class="tech-tag">Supabase</span>
+                        <span class="tech-tag">DSGVO</span>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-badge beta">BETA</div>
+                    <div class="project-icon">
+                        <svg viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10s10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5l-6 4.5z"/></svg>
+                    </div>
+                    <h3 class="project-title">AirGo</h3>
+                    <p class="project-description">
+                        Cross-Platform-Dateiübertragung à la AirDrop für Android und iOS. Schnell, sicher und ohne Cloud.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Flutter</span>
+                        <span class="tech-tag">P2P</span>
+                        <span class="tech-tag">Encryption</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tech Stack Section -->
+    <section id="tech-stack" class="section tech-stack">
+        <div class="container">
+            <h2 class="section-title">Tech Stack</h2>
+            <p class="section-description">Tools und Technologien, mit denen ich täglich arbeite</p>
+            
+            <div class="tech-category">
+                <h3 class="category-title">🤖 AI & Automation</h3>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <div class="tech-icon">🧠</div>
+                        <span>Ollama</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon">💻</div>
+                        <span>MLC LLM</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon">⚡</div>
+                        <span>Cursor AI</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon">🔧</div>
+                        <span>n8n</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tech-category">
+                <h3 class="category-title">💻 Development</h3>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <div class="tech-icon">📱</div>
+                        <span>Flutter</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon">⚛️</div>
+                        <span>Node.js</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon">🐍</div>
+                        <span>Python</span>
+                    </div>
+                    <div class="tech-item">
+                        <div class="tech-icon">🗄️</div>
+                        <span>Supabase</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Über mich Section -->
+    <section id="about" class="section about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">BACKGROUND</span>
+                <h2 class="section-title">Über mich</h2>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p class="about-intro">
+                        Technologiebegeisterter Entwickler mit einem klaren Fokus: 
+                        Ich baue smarte Lösungen, die echten Mehrwert bieten.
+                    </p>
+                    <h3>Was mich auszeichnet</h3>
+                    <div class="about-features">
+                        <div class="feature">
+                            <div class="feature-icon">🧠</div>
+                            <div>
+                                <h4>Stark in KI-Logik</h4>
+                                <p>Ich verstehe nicht nur, wie KI funktioniert – ich baue selbst Modelle und Agents.</p>
+                            </div>
+                        </div>
+                        <div class="feature">
+                            <div class="feature-icon">⚡</div>
+                            <div>
+                                <h4>Hands-on & systematisch</h4>
+                                <p>Ich arbeite direkt mit .env-Files, MIFARE-NFC-Tags, Backend-Auths, Custom Deployments & Co.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-approach">
+                    <h3>Mein Ansatz</h3>
+                    <div class="approach-steps">
+                        <div class="step">
+                            <span class="step-number">01</span>
+                            <h4>Verstehen</h4>
+                            <p>Probleme durchdringen und die beste Lösung identifizieren</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">02</span>
+                            <h4>Entwickeln</h4>
+                            <p>Mit modernsten Tools effiziente Lösungen bauen</p>
+                        </div>
+                        <div class="step">
+                            <span class="step-number">03</span>
+                            <h4>Optimieren</h4>
+                            <p>Kontinuierliche Verbesserung und Anpassung</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kontakt Section -->
+    <section id="kontakt" class="section contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">GET IN TOUCH</span>
+                <h2 class="section-title">Lass uns zusammenarbeiten</h2>
+                <p class="section-description">
+                    Haben Sie eine Idee oder ein Projekt im Kopf? Ich freue mich darauf, 
+                    innovative Lösungen mit Ihnen zu entwickeln.
+                </p>
+            </div>
+            <div class="contact-grid">
+                <a href="mailto:luka@lukaloehr.de" class="contact-card">
+                    <div class="contact-icon">
+                        <svg viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5l-8-5V6l8 5l8-5v2z"/></svg>
+                    </div>
+                    <h3>E-Mail</h3>
+                    <p>luka@lukaloehr.de</p>
+                </a>
+                <a href="https://github.com/lukaloehr" target="_blank" class="contact-card">
+                    <div class="contact-icon">
+                        <svg viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5c.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34c-.46-1.16-1.11-1.47-1.11-1.47c-.91-.62.07-.6.07-.6c1 .07 1.53 1.03 1.53 1.03c.87 1.52 2.34 1.07 2.91.83c.09-.65.35-1.09.63-1.34c-2.22-.25-4.55-1.11-4.55-4.92c0-1.11.38-2 1.03-2.71c-.1-.25-.45-1.29.1-2.64c0 0 .84-.27 2.75 1.02c.79-.22 1.65-.33 2.5-.33c.85 0 1.71.11 2.5.33c1.91-1.29 2.75-1.02 2.75-1.02c.55 1.35.2 2.39.1 2.64c.65.71 1.03 1.6 1.03 2.71c0 3.82-2.34 4.66-4.57 4.91c.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"/></svg>
+                    </div>
+                    <h3>GitHub</h3>
+                    <p>@lukaloehr</p>
+                </a>
+                <a href="https://linkedin.com/in/luka-loehr" target="_blank" class="contact-card">
+                    <div class="contact-icon">
+                        <svg viewBox="0 0 24 24" width="48" height="48"><path fill="currentColor" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                    </div>
+                    <h3>LinkedIn</h3>
+                    <p>Luka Löhr</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schüler Gallery Modal -->
+    <div id="students-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Reaktionstest Gallery</h2>
+                <button class="modal-close" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="students-grid">
+                    <a href="projects/reaction-tests/carlotta.html" class="student-card" target="_blank">
+                        <div class="student-icon">👩</div>
+                        <h3>Carlotta</h3>
+                        <p>Reaktionstest</p>
+                    </a>
+                    <a href="projects/reaction-tests/johan.html" class="student-card" target="_blank">
+                        <div class="student-icon">👨</div>
+                        <h3>Johan</h3>
+                        <p>Reaktionstest</p>
+                    </a>
+                    <a href="projects/reaction-tests/luka.html" class="student-card" target="_blank">
+                        <div class="student-icon">👨</div>
+                        <h3>Luka</h3>
+                        <p>Reaktionstest</p>
+                    </a>
+                    <a href="projects/reaction-tests/sofia-klara-acoustic.html" class="student-card" target="_blank">
+                        <div class="student-icon">👩‍👩‍👧</div>
+                        <h3>Sofia & Klara</h3>
+                        <p>Akustischer Test</p>
+                    </a>
+                    <a href="projects/reaction-tests/sofia-klara-optical.html" class="student-card" target="_blank">
+                        <div class="student-icon">👩‍👩‍👧</div>
+                        <h3>Sofia & Klara</h3>
+                        <p>Optischer Test</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

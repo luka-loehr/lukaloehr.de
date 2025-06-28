@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reaktionstest Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #000000;
+            --bg-secondary: #1c1c1e;
+            --bg-tertiary: #2c2c2e;
+            --text-primary: #ffffff;
+            --text-secondary: #8e8e93;
+            --accent: #0a84ff;
+            --accent-hover: #0071e3;
+            --success: #30d158;
+            --warning: #ff9f0a;
+            --danger: #ff453a;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --transition: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body.light-mode {
+            --bg-primary: #f2f2f7;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #f2f2f7;
+            --text-primary: #000000;
+            --text-secondary: #8e8e93;
+            --accent: #007aff;
+            --accent-hover: #0051d5;
+            --glass: rgba(255, 255, 255, 0.8);
+            --glass-border: rgba(0, 0, 0, 0.1);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: all 0.3s var(--transition);
+        }
+
+        /* Animated Background */
+        .background-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 50%, var(--accent) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, var(--success) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 20%, var(--warning) 0%, transparent 50%);
+            opacity: 0.05;
+            animation: gradient-shift 20s ease infinite;
+        }
+
+        @keyframes gradient-shift {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.5); }
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 50px;
+            backdrop-filter: blur(20px);
+            background: var(--glass);
+            padding: 25px 40px;
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            animation: slide-down 0.6s var(--transition);
+        }
+
+        @keyframes slide-down {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent), var(--success));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 24px;
+            color: white;
+            animation: logo-pulse 2s ease infinite;
+        }
+
+        @keyframes logo-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--accent), var(--success));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 400;
+        }
+
+        /* Mode Toggle */
+        .mode-toggle {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 32px;
+            background: var(--bg-tertiary);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s var(--transition);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 26px;
+            height: 26px;
+            background: white;
+            border-radius: 50%;
+            top: 3px;
+            left: 3px;
+            transition: all 0.3s var(--transition);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        body.light-mode .toggle-switch::after {
+            transform: translateX(28px);
+            background: var(--accent);
+        }
+
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 350px 1fr 350px;
+            gap: 30px;
+            animation: fade-in 0.8s var(--transition) 0.2s both;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Glass Panel */
+        .glass-panel {
+            backdrop-filter: blur(20px);
+            background: var(--glass);
+            border-radius: 24px;
+            padding: 30px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow);
+            transition: all 0.3s var(--transition);
+        }
+
+        .glass-panel:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Settings Panel */
+        .panel-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .setting-group {
+            margin-bottom: 25px;
+            opacity: 0;
+            animation: slide-in-left 0.5s var(--transition) forwards;
+        }
+
+        .setting-group:nth-child(2) { animation-delay: 0.1s; }
+        .setting-group:nth-child(3) { animation-delay: 0.2s; }
+        .setting-group:nth-child(4) { animation-delay: 0.3s; }
+        .setting-group:nth-child(5) { animation-delay: 0.4s; }
+
+        @keyframes slide-in-left {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .setting-label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+        }
+
+        input, select {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            font-size: 1rem;
+            color: var(--text-primary);
+            transition: all 0.2s var(--transition);
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(10, 132, 255, 0.1);
+            transform: scale(1.02);
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        button {
+            padding: 16px 24px;
+            border: none;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .primary-button {
+            background: linear-gradient(135deg, var(--accent), var(--accent-hover));
+            color: white;
+            box-shadow: 0 8px 16px rgba(10, 132, 255, 0.3);
+        }
+
+        .primary-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(10, 132, 255, 0.4);
+        }
+
+        .primary-button:disabled {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .secondary-button {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+        }
+
+        .secondary-button:hover {
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Test Area */
+        .test-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .test-area {
+            backdrop-filter: blur(30px);
+            background: var(--glass);
+            border-radius: 30px;
+            padding: 80px 60px;
+            text-align: center;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid var(--glass-border);
+            transition: all 0.3s var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .test-area::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, var(--accent) 0%, transparent 70%);
+            opacity: 0;
+            transition: all 0.6s var(--transition);
+            animation: rotate-gradient 20s linear infinite;
+        }
+
+        @keyframes rotate-gradient {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .test-area.waiting {
+            background: linear-gradient(135deg, rgba(255, 159, 10, 0.1), rgba(255, 159, 10, 0.2));
+            border-color: var(--warning);
+        }
+
+        .test-area.waiting::before {
+            opacity: 0.1;
+        }
+
+        .test-area.signal {
+            background: linear-gradient(135deg, rgba(48, 209, 88, 0.1), rgba(48, 209, 88, 0.2));
+            border-color: var(--success);
+            animation: signal-pulse 0.6s ease infinite;
+        }
+
+        .test-area.signal::before {
+            opacity: 0.2;
+        }
+
+        @keyframes signal-pulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 40px rgba(48, 209, 88, 0.3);
+            }
+            50% { 
+                transform: scale(1.02);
+                box-shadow: 0 0 60px rgba(48, 209, 88, 0.5);
+            }
+        }
+
+        #instruction {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            transition: all 0.3s var(--transition);
+        }
+
+        .signal-indicator {
+            width: 100px;
+            height: 100px;
+            background: conic-gradient(from 0deg, var(--accent), var(--success), var(--warning), var(--accent));
+            border-radius: 50%;
+            display: none;
+            position: relative;
+            animation: rotate-gradient 2s linear infinite;
+            box-shadow: 0 0 50px rgba(10, 132, 255, 0.5);
+        }
+
+        .signal-indicator::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            background: var(--bg-primary);
+            border-radius: 50%;
+        }
+
+        .signal-indicator.active {
+            display: block;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: var(--bg-tertiary);
+            padding: 25px;
+            border-radius: 16px;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--success));
+            transform: scaleX(0);
+            transition: transform 0.3s var(--transition);
+        }
+
+        .stat-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent), var(--success));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Results Panel */
+        .results-content {
+            max-height: 500px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .results-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .results-content::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+        }
+
+        .results-content::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px;
+            margin-bottom: 12px;
+            background: var(--bg-tertiary);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.2s var(--transition);
+            opacity: 0;
+            animation: slide-in-right 0.4s var(--transition) forwards;
+        }
+
+        @keyframes slide-in-right {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .result-item:hover {
+            transform: translateX(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .result-number {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .result-time {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--text-secondary);
+            padding: 60px 20px;
+            font-style: italic;
+        }
+
+        /* Achievement Notification */
+        .achievement {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 20px 30px;
+            box-shadow: var(--shadow);
+            transform: translateX(400px);
+            transition: transform 0.3s var(--transition);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .achievement.show {
+            transform: translateX(0);
+        }
+
+        .achievement-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), var(--success));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .achievement-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .achievement-title {
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .achievement-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Loading Animation */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--bg-tertiary);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Keyboard Shortcuts */
+        .shortcuts {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            padding: 15px 20px;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            display: flex;
+            gap: 20px;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .shortcuts:hover {
+            opacity: 1;
+        }
+
+        .shortcut {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .key {
+            background: var(--bg-tertiary);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-family: monospace;
+            color: var(--text-primary);
+            border: 1px solid var(--glass-border);
+        }
+
+        /* Responsive */
+        @media (max-width: 1400px) {
+            .main-grid {
+                grid-template-columns: 300px 1fr 300px;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+            
+            .shortcuts {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+    
+    <div class="container">
+        <header>
+            <div class="logo-section">
+                <div class="logo">⚡</div>
+                <div>
+                    <h1>Reaktionstest Pro</h1>
+                    <div class="subtitle">Messe deine Reflexe wie ein Profi</div>
+                </div>
+            </div>
+            <div class="mode-toggle">
+                <span>🌙</span>
+                <div class="toggle-switch" onclick="toggleDarkMode()"></div>
+                <span>☀️</span>
+            </div>
+        </header>
+        
+        <div class="main-grid">
+            <!-- Settings Panel -->
+            <div class="glass-panel">
+                <div class="panel-title">Einstellungen</div>
+                
+                <div class="setting-group">
+                    <label class="setting-label">Minimale Wartezeit (ms)</label>
+                    <input type="number" id="minWait" value="1000" min="500" max="10000">
+                </div>
+                
+                <div class="setting-group">
+                    <label class="setting-label">Maximale Wartezeit (ms)</label>
+                    <input type="number" id="maxWait" value="5000" min="1000" max="15000">
+                </div>
+                
+                <div class="setting-group">
+                    <label class="setting-label">Signal-Typ</label>
+                    <select id="signalType">
+                        <option value="both">🎵 Visuell + Akustisch</option>
+                        <option value="visual">👁 Nur visuell</option>
+                        <option value="audio">🔊 Nur akustisch</option>
+                    </select>
+                </div>
+                
+                <div class="setting-group">
+                    <label class="setting-label">Reaktions-Taste</label>
+                    <select id="reactionKey">
+                        <option value=" ">Leertaste</option>
+                        <option value="Enter">Enter ⏎</option>
+                        <option value="ArrowUp">Pfeil oben ↑</option>
+                        <option value="ArrowDown">Pfeil unten ↓</option>
+                        <option value="ArrowLeft">Pfeil links ←</option>
+                        <option value="ArrowRight">Pfeil rechts →</option>
+                    </select>
+                </div>
+                
+                <div class="button-group">
+                    <button id="startBtn" class="primary-button" onclick="startTest()">
+                        Test starten
+                    </button>
+                    <button class="secondary-button" onclick="resetResults()">
+                        Zurücksetzen
+                    </button>
+                    <button class="secondary-button" onclick="downloadCSV()">
+                        CSV exportieren
+                    </button>
+                    <button class="secondary-button" onclick="downloadJSON()">
+                        JSON exportieren
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Test Area -->
+            <div class="test-container">
+                <div id="testArea" class="test-area">
+                    <div id="instruction">Bereit für den Start</div>
+                    <div id="signalIndicator" class="signal-indicator"></div>
+                    <div class="loading-spinner" id="loadingSpinner"></div>
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="avgTime">-</div>
+                        <div class="stat-label">Mittelwert (ms)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="medianTime">-</div>
+                        <div class="stat-label">Median (ms)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="bestTime">-</div>
+                        <div class="stat-label">Bestzeit (ms)</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="testCount">0</div>
+                        <div class="stat-label">Anzahl Tests</div>
+                    </div>
+                </div>
+                
+                <canvas id="chartCanvas" style="display: none;"></canvas>
+            </div>
+            
+            <!-- Results Panel -->
+            <div class="glass-panel">
+                <div class="panel-title">Ergebnisse</div>
+                <div id="resultsList" class="results-content">
+                    <div class="empty-state">
+                        <div style="font-size: 3rem; margin-bottom: 10px;">📊</div>
+                        <div>Noch keine Messungen</div>
+                        <div style="font-size: 0.9rem; margin-top: 5px;">Starte deinen ersten Test!</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Achievement Notification -->
+    <div id="achievement" class="achievement">
+        <div class="achievement-icon">🏆</div>
+        <div class="achievement-text">
+            <div class="achievement-title" id="achievementTitle">Achievement Unlocked!</div>
+            <div class="achievement-desc" id="achievementDesc">Description</div>
+        </div>
+    </div>
+    
+    <!-- Keyboard Shortcuts -->
+    <div class="shortcuts">
+        <div class="shortcut">
+            <span class="key">S</span>
+            <span>Start</span>
+        </div>
+        <div class="shortcut">
+            <span class="key">R</span>
+            <span>Reset</span>
+        </div>
+        <div class="shortcut">
+            <span class="key">D</span>
+            <span>Download</span>
+        </div>
+        <div class="shortcut">
+            <span class="key">T</span>
+            <span>Theme</span>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Global Variables
+        let testState = 'idle';
+        let waitTimeout;
+        let signalTime;
+        let results = JSON.parse(localStorage.getItem('reactionTestResults')) || [];
+        let audioContext;
+        let sounds = {};
+        let chart;
+        let settings = JSON.parse(localStorage.getItem('reactionTestSettings')) || {};
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initAudio();
+            loadSettings();
+            updateStatistics();
+            updateResultsList();
+            initChart();
+            setupKeyboardShortcuts();
+            checkAchievements();
+        });
+
+        // Audio System
+        function initAudio() {
+            audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Preload sounds
+            sounds.ready = createSound(400, 'sine', 0.1, 0.2);
+            sounds.signal = createSound(1000, 'sine', 0.3, 0.3);
+            sounds.success = createSound([523, 659, 784], 'sine', 0.2, 0.15);
+            sounds.fail = createSound([300, 250], 'sawtooth', 0.2, 0.2);
+            sounds.achievement = createSound([523, 659, 784, 1047], 'sine', 0.3, 0.2);
+        }
+
+        function createSound(frequencies, type, volume, duration) {
+            return () => {
+                const freqArray = Array.isArray(frequencies) ? frequencies : [frequencies];
+                freqArray.forEach((freq, index) => {
+                    setTimeout(() => {
+                        const oscillator = audioContext.createOscillator();
+                        const gainNode = audioContext.createGain();
+                        
+                        oscillator.connect(gainNode);
+                        gainNode.connect(audioContext.destination);
+                        
+                        oscillator.frequency.value = freq;
+                        oscillator.type = type;
+                        
+                        gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+                        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+                        
+                        oscillator.start(audioContext.currentTime);
+                        oscillator.stop(audioContext.currentTime + duration);
+                    }, index * 100);
+                });
+            };
+        }
+
+        // Settings Management
+        function loadSettings() {
+            if (settings.theme === 'light') {
+                document.body.classList.add('light-mode');
+            }
+            
+            if (settings.minWait) document.getElementById('minWait').value = settings.minWait;
+            if (settings.maxWait) document.getElementById('maxWait').value = settings.maxWait;
+            if (settings.signalType) document.getElementById('signalType').value = settings.signalType;
+            if (settings.reactionKey) document.getElementById('reactionKey').value = settings.reactionKey;
+        }
+
+        function saveSettings() {
+            settings = {
+                theme: document.body.classList.contains('light-mode') ? 'light' : 'dark',
+                minWait: document.getElementById('minWait').value,
+                maxWait: document.getElementById('maxWait').value,
+                signalType: document.getElementById('signalType').value,
+                reactionKey: document.getElementById('reactionKey').value
+            };
+            localStorage.setItem('reactionTestSettings', JSON.stringify(settings));
+        }
+
+        // Theme Toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('light-mode');
+            saveSettings();
+            sounds.ready();
+        }
+
+        // Test Functions
+        function startTest() {
+            if (testState !== 'idle') return;
+            
+            const minWait = parseInt(document.getElementById('minWait').value);
+            const maxWait = parseInt(document.getElementById('maxWait').value);
+            
+            if (minWait >= maxWait) {
+                showNotification('⚠️', 'Fehler', 'Min. Wartezeit muss kleiner als Max. sein');
+                sounds.fail();
+                return;
+            }
+            
+            saveSettings();
+            testState = 'waiting';
+            updateUI();
+            sounds.ready();
+            
+            const waitTime = Math.random() * (maxWait - minWait) + minWait;
+            
+            waitTimeout = setTimeout(() => {
+                showSignal();
+            }, waitTime);
+        }
+
+        function showSignal() {
+            testState = 'signal';
+            signalTime = performance.now();
+            
+            const signalType = document.getElementById('signalType').value;
+            const testArea = document.getElementById('testArea');
+            const signalIndicator = document.getElementById('signalIndicator');
+            
+            if (signalType === 'visual' || signalType === 'both') {
+                testArea.classList.add('signal');
+                signalIndicator.classList.add('active');
+            }
+            
+            if (signalType === 'audio' || signalType === 'both') {
+                sounds.signal();
+            }
+            
+            updateUI();
+        }
+
+        function handleReaction() {
+            if (testState === 'signal') {
+                const reactionTime = Math.round(performance.now() - signalTime);
+                recordResult(reactionTime);
+                resetTest();
+                sounds.success();
+            } else if (testState === 'waiting') {
+                clearTimeout(waitTimeout);
+                showEarlyPress();
+                sounds.fail();
+            }
+        }
+
+        function showEarlyPress() {
+            testState = 'idle';
+            document.getElementById('testArea').classList.remove('waiting');
+            document.getElementById('instruction').textContent = '⚠️ Zu früh! Warte auf das Signal.';
+            document.getElementById('startBtn').disabled = false;
+            
+            setTimeout(() => {
+                if (testState === 'idle') {
+                    updateUI();
+                }
+            }, 2000);
+        }
+
+        function recordResult(time) {
+            const result = {
+                time: time,
+                timestamp: new Date(),
+                id: Date.now()
+            };
+            
+            results.push(result);
+            localStorage.setItem('reactionTestResults', JSON.stringify(results));
+            
+            updateStatistics();
+            updateResultsList();
+            updateChart();
+            checkAchievements();
+            
+            // Check for personal best
+            const times = results.map(r => r.time);
+            if (time === Math.min(...times)) {
+                showNotification('🎉', 'Neue Bestzeit!', `${time}ms - Fantastisch!`);
+                sounds.achievement();
+            }
+        }
+
+        function calculateStatistics() {
+            if (results.length === 0) return { avg: 0, median: 0, best: 0 };
+            
+            const times = results.map(r => r.time);
+            const avg = times.reduce((a, b) => a + b, 0) / times.length;
+            
+            const sorted = [...times].sort((a, b) => a - b);
+            const median = sorted.length % 2 === 0 
+                ? (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2
+                : sorted[Math.floor(sorted.length / 2)];
+            
+            const best = Math.min(...times);
+            
+            return { avg, median, best };
+        }
+
+        function updateStatistics() {
+            const stats = calculateStatistics();
+            
+            document.getElementById('avgTime').textContent = results.length > 0 ? Math.round(stats.avg) : '-';
+            document.getElementById('medianTime').textContent = results.length > 0 ? Math.round(stats.median) : '-';
+            document.getElementById('bestTime').textContent = results.length > 0 ? Math.round(stats.best) : '-';
+            document.getElementById('testCount').textContent = results.length;
+            
+            // Animate stat updates
+            document.querySelectorAll('.stat-value').forEach(el => {
+                el.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    el.style.transform = 'scale(1)';
+                }, 200);
+            });
+        }
+
+        function updateResultsList() {
+            const list = document.getElementById('resultsList');
+            
+            if (results.length === 0) {
+                list.innerHTML = `
+                    <div class="empty-state">
+                        <div style="font-size: 3rem; margin-bottom: 10px;">📊</div>
+                        <div>Noch keine Messungen</div>
+                        <div style="font-size: 0.9rem; margin-top: 5px;">Starte deinen ersten Test!</div>
+                    </div>
+                `;
+                return;
+            }
+            
+            list.innerHTML = results
+                .slice(-20)
+                .reverse()
+                .map((result, index) => 
+                    `<div class="result-item" style="animation-delay: ${index * 0.05}s">
+                        <span class="result-number">Test ${results.length - index}</span>
+                        <span class="result-time">${result.time}ms</span>
+                    </div>`
+                ).join('');
+        }
+
+        function updateUI() {
+            const instruction = document.getElementById('instruction');
+            const startBtn = document.getElementById('startBtn');
+            const testArea = document.getElementById('testArea');
+            const reactionKey = document.getElementById('reactionKey');
+            const keyName = reactionKey.options[reactionKey.selectedIndex].text;
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            
+            switch (testState) {
+                case 'idle':
+                    instruction.textContent = 'Bereit für den Start';
+                    startBtn.disabled = false;
+                    testArea.className = 'test-area';
+                    loadingSpinner.style.display = 'none';
+                    break;
+                case 'waiting':
+                    instruction.textContent = 'Warte auf das Signal...';
+                    startBtn.disabled = true;
+                    testArea.className = 'test-area waiting';
+                    loadingSpinner.style.display = 'block';
+                    break;
+                case 'signal':
+                    instruction.textContent = `JETZT! ${keyName}`;
+                    loadingSpinner.style.display = 'none';
+                    break;
+            }
+        }
+
+        function resetTest() {
+            testState = 'idle';
+            document.getElementById('testArea').classList.remove('waiting', 'signal');
+            document.getElementById('signalIndicator').classList.remove('active');
+            updateUI();
+        }
+
+        function resetResults() {
+            if (results.length > 0 && !confirm('Wirklich alle Ergebnisse löschen?')) {
+                return;
+            }
+            
+            results = [];
+            localStorage.removeItem('reactionTestResults');
+            updateStatistics();
+            updateResultsList();
+            updateChart();
+            sounds.ready();
+        }
+
+        // Chart
+        function initChart() {
+            const ctx = document.getElementById('chartCanvas').getContext('2d');
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Reaktionszeit',
+                        data: [],
+                        borderColor: getComputedStyle(document.documentElement).getPropertyValue('--accent'),
+                        backgroundColor: 'rgba(10, 132, 255, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: { display: true, text: 'Zeit (ms)' }
+                        }
+                    }
+                }
+            });
+            
+            updateChart();
+        }
+
+        function updateChart() {
+            if (!chart || results.length === 0) return;
+            
+            const last10 = results.slice(-10);
+            chart.data.labels = last10.map((_, i) => `Test ${results.length - 9 + i}`);
+            chart.data.datasets[0].data = last10.map(r => r.time);
+            chart.update();
+            
+            document.getElementById('chartCanvas').style.display = results.length > 0 ? 'block' : 'none';
+        }
+
+        // Achievements
+        function checkAchievements() {
+            const achievements = [
+                { count: 1, title: 'Erster Test', desc: 'Willkommen beim Reaktionstest!' },
+                { count: 10, title: 'Aufwärmphase', desc: '10 Tests abgeschlossen' },
+                { count: 50, title: 'Reaktions-Veteran', desc: '50 Tests gemeistert' },
+                { count: 100, title: 'Reflex-Meister', desc: '100 Tests - Beeindruckend!' },
+                { time: 200, title: 'Blitzschnell', desc: 'Unter 200ms reagiert!' },
+                { time: 150, title: 'Übermenschlich', desc: 'Unter 150ms - Wahnsinn!' }
+            ];
+            
+            achievements.forEach(achievement => {
+                if (achievement.count && results.length === achievement.count) {
+                    showNotification('🏆', achievement.title, achievement.desc);
+                    sounds.achievement();
+                }
+                
+                if (achievement.time && results.length > 0) {
+                    const lastTime = results[results.length - 1].time;
+                    if (lastTime < achievement.time) {
+                        const key = `achievement_time_${achievement.time}`;
+                        if (!localStorage.getItem(key)) {
+                            localStorage.setItem(key, 'true');
+                            showNotification('🏆', achievement.title, achievement.desc);
+                            sounds.achievement();
+                        }
+                    }
+                }
+            });
+        }
+
+        function showNotification(icon, title, desc) {
+            const notification = document.getElementById('achievement');
+            document.getElementById('achievementTitle').textContent = title;
+            document.getElementById('achievementDesc').textContent = desc;
+            document.querySelector('.achievement-icon').textContent = icon;
+            
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 4000);
+        }
+
+        // Export Functions
+        function downloadCSV() {
+            if (results.length === 0) {
+                showNotification('📋', 'Keine Daten', 'Keine Ergebnisse zum Exportieren');
+                sounds.fail();
+                return;
+            }
+            
+            const stats = calculateStatistics();
+            const date = new Date();
+            
+            const csvContent = [
+                'REAKTIONSTEST PRO - ERGEBNISSE',
+                '',
+                `Exportiert am,${date.toLocaleString('de-DE')}`,
+                `Anzahl Tests,${results.length}`,
+                `Mittelwert (ms),${Math.round(stats.avg)}`,
+                `Median (ms),${Math.round(stats.median)}`,
+                `Bestzeit (ms),${Math.round(stats.best)}`,
+                '',
+                'DETAILLIERTE MESSWERTE',
+                'Test Nr,Reaktionszeit (ms),Datum,Uhrzeit',
+                ...results.map((result, index) => 
+                    `${index + 1},${result.time},${result.timestamp.toLocaleDateString('de-DE')},${result.timestamp.toLocaleTimeString('de-DE')}`
+                )
+            ].join('\n');
+            
+            downloadFile(csvContent, `reaktionstest_pro_${date.toISOString().slice(0,10)}.csv`, 'text/csv');
+            showNotification('✅', 'Export erfolgreich', 'CSV-Datei wurde heruntergeladen');
+            sounds.success();
+        }
+
+        function downloadJSON() {
+            if (results.length === 0) {
+                showNotification('📋', 'Keine Daten', 'Keine Ergebnisse zum Exportieren');
+                sounds.fail();
+                return;
+            }
+            
+            const stats = calculateStatistics();
+            const exportData = {
+                metadata: {
+                    app: 'Reaktionstest Pro',
+                    exportDate: new Date().toISOString(),
+                    totalTests: results.length,
+                    statistics: {
+                        average: Math.round(stats.avg),
+                        median: Math.round(stats.median),
+                        best: Math.round(stats.best)
+                    }
+                },
+                results: results
+            };
+            
+            const jsonContent = JSON.stringify(exportData, null, 2);
+            downloadFile(jsonContent, `reaktionstest_pro_${new Date().toISOString().slice(0,10)}.json`, 'application/json');
+            showNotification('✅', 'Export erfolgreich', 'JSON-Datei wurde heruntergeladen');
+            sounds.success();
+        }
+
+        function downloadFile(content, filename, type) {
+            const blob = new Blob([content], { type: type + ';charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        // Keyboard Shortcuts
+        function setupKeyboardShortcuts() {
+            document.addEventListener('keydown', (event) => {
+                // Reaction key
+                const selectedKey = document.getElementById('reactionKey').value;
+                if (event.key === selectedKey) {
+                    event.preventDefault();
+                    handleReaction();
+                    return;
+                }
+                
+                // Shortcuts
+                if (event.target.tagName === 'INPUT' || event.target.tagName === 'SELECT') return;
+                
+                switch(event.key.toLowerCase()) {
+                    case 's':
+                        if (testState === 'idle') startTest();
+                        break;
+                    case 'r':
+                        resetResults();
+                        break;
+                    case 'd':
+                        downloadCSV();
+                        break;
+                    case 't':
+                        toggleDarkMode();
+                        break;
+                }
+            });
+        }
+
+        // Event Listeners
+        document.getElementById('minWait').addEventListener('change', function() {
+            const minWait = parseInt(this.value);
+            const maxWait = parseInt(document.getElementById('maxWait').value);
+            
+            if (minWait >= maxWait) {
+                document.getElementById('maxWait').value = minWait + 1000;
+            }
+            saveSettings();
+        });
+
+        document.getElementById('maxWait').addEventListener('change', function() {
+            const maxWait = parseInt(this.value);
+            const minWait = parseInt(document.getElementById('minWait').value);
+            
+            if (maxWait <= minWait) {
+                document.getElementById('minWait').value = Math.max(500, maxWait - 1000);
+            }
+            saveSettings();
+        });
+
+        document.getElementById('reactionKey').addEventListener('change', function() {
+            if (testState !== 'idle') {
+                updateUI();
+            }
+            saveSettings();
+        });
+
+        document.getElementById('signalType').addEventListener('change', saveSettings);
+    </script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reaktionstest mit optischem Signal</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      margin-top: 100px;
+    }
+    #signal {
+      display: none;
+      font-size: 24px;
+      color: white;
+      background-color: red;
+      padding: 20px;
+      margin: 20px auto;
+      width: 200px;
+      user-select: none;
+      cursor: default;
+    }
+    table, th, td {
+      border: 1px solid black;
+      border-collapse: collapse;
+      margin: 20px auto;
+    }
+    th, td {
+      padding: 5px 15px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Reaktionstest (optisches Signal)</h1>
+<button id="startBtn">Start</button>
+
+<div id="signal">KLICK JETZT!</div>
+
+<h2>Reaktionszeiten (ms)</h2>
+<table id="resultsTable">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Zeit (ms)</th>
+      <th>Min (ms)</th>
+      <th>Max (ms)</th>
+      <th>Mittelwert (ms)</th>
+      <th>Median (ms)</th>
+    </tr>
+  </thead>
+  <tbody></tbody>
+</table>
+
+<p><em>Drücke Leertaste, um die Reaktion zu stoppen oder den Test zu beenden (nur wenn kein Signal aktiv)</em></p>
+
+<script>
+  const startBtn = document.getElementById('startBtn');
+  const signal = document.getElementById('signal');
+  const tableBody = document.querySelector('#resultsTable tbody');
+
+  let startTime = 0;
+  let reactionTimes = [];
+  let waitingForReaction = false;
+  let testStopped = false;
+
+  startBtn.addEventListener('click', () => {
+    if (testStopped) return;
+
+    startBtn.disabled = true;
+    signal.style.display = 'none';
+    waitingForReaction = false;
+
+    const delay = Math.random() * 8000 + 2000;
+
+    setTimeout(() => {
+      if (testStopped) return;
+
+      signal.style.display = 'inline-block';
+      startTime = Date.now();
+      waitingForReaction = true;
+    }, delay);
+  });
+
+  function getMedian(arr) {
+    const sorted = [...arr].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    if (sorted.length % 2 !== 0) {
+      return sorted[mid];
+    }
+    return (sorted[mid - 1] + sorted[mid]) / 2;
+  }
+
+  function getMean(arr) {
+    return arr.reduce((a,b) => a+b, 0) / arr.length;
+  }
+
+  function getMin(arr) {
+    return Math.min(...arr);
+  }
+
+  function getMax(arr) {
+    return Math.max(...arr);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.code === 'Space') {
+      e.preventDefault();
+
+      if (waitingForReaction && !testStopped) {
+        const reactionTime = Date.now() - startTime;
+        reactionTimes.push(reactionTime);
+
+        const min = getMin(reactionTimes);
+        const max = getMax(reactionTimes);
+        const mean = getMean(reactionTimes);
+        const median = getMedian(reactionTimes);
+
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${reactionTimes.length}</td>
+                         <td>${reactionTime}</td>
+                         <td>${min}</td>
+                         <td>${max}</td>
+                         <td>${mean.toFixed(2)}</td>
+                         <td>${median.toFixed(2)}</td>`;
+        tableBody.appendChild(row);
+
+        signal.style.display = 'none';
+        waitingForReaction = false;
+        startBtn.disabled = false;
+      } else if (!waitingForReaction && !testStopped) {
+        testStopped = true;
+        startBtn.disabled = true;
+        signal.style.display = 'none';
+        alert("Test gestoppt!");
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
