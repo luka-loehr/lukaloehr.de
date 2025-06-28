@@ -3,26 +3,29 @@ document.addEventListener('DOMContentLoaded', function() {
     // Modal functionality
     const modal = document.getElementById('students-modal');
     const studentsBtn = document.getElementById('students-btn');
-    const modalClose = document.getElementById('modal-close');
+    
+    // Function to close modal with animation
+    function closeModal() {
+        modal.classList.remove('active');
+        // Wait for transition to complete
+        setTimeout(() => {
+            document.body.style.overflow = 'auto';
+        }, 300);
+    }
     
     // Open modal
     studentsBtn.addEventListener('click', function(e) {
         e.preventDefault();
-        modal.classList.add('active');
         document.body.style.overflow = 'hidden';
-    });
-    
-    // Close modal
-    modalClose.addEventListener('click', function() {
-        modal.classList.remove('active');
-        document.body.style.overflow = 'auto';
+        // Force reflow before adding active class
+        modal.offsetHeight;
+        modal.classList.add('active');
     });
     
     // Close modal when clicking outside
     modal.addEventListener('click', function(e) {
         if (e.target === modal) {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
+            closeModal();
         }
     });
     
@@ -52,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const navBrand = document.querySelector('.nav-brand');
     const navMenu = document.querySelector('.nav-menu');
     let lastScroll = 0;
-    let isCompact = false;
+    let isCompact = true;
     
     window.addEventListener('scroll', function() {
         const currentScroll = window.pageYOffset;
@@ -60,6 +63,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const scrollThreshold = heroHeight * 0.6; // Trigger at 60% of hero section
         
         // Dynamic island transformation
+        // COMMENTED OUT: Now the navbar always stays compact
+        /*
         if (currentScroll > scrollThreshold && !isCompact) {
             isCompact = true;
             navbar.classList.add('compact');
@@ -74,6 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
             isCompact = false;
             navbar.classList.remove('compact');
         }
+        */
         
         // Add shadow on scroll
         if (currentScroll > 50) {
